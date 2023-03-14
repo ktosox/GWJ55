@@ -33,3 +33,5 @@ func _on_Timer_timeout():
 		$Green2.visible = true
 		$Green2.global_position = Vector2(rand_range(200,800),rand_range(80,300) )
 	pass # Replace with function body.
+
+

@@ -19,16 +19,26 @@ config/icon="res://icon.png"
 window/size/width=1280
 window/size/height=720
 window/size/resizable=false
-window/stretch/mode="viewport"
-window/stretch/aspect="keep"
+window/stretch/mode="2d"
+window/stretch/aspect="keep_width"
 
 [gui]
 
 common/drop_mouse_on_gui_input_disabled=true
 
+[layer_names]
+
+2d_physics/layer_1="DO NOT USE"
+2d_physics/layer_2="WALLS"
+2d_physics/layer_3="MOTES"
+2d_physics/layer_4="GRABBER"
+2d_physics/layer_5="ATTACKS"
+2d_physics/layer_6="TARGETS"
+
 [physics]
 
 common/enable_pause_aware_picking=true
+2d/default_gravity_vector=Vector2( 0, 0 )
 
 [rendering]
 
