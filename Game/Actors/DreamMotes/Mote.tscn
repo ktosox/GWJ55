@@ -1,15 +1,54 @@
-[gd_scene load_steps=5 format=2]
+[gd_scene load_steps=11 format=2]
 
 [ext_resource path="res://Actors/DreamMotes/Draggy.gd" type="Script" id=1]
-[ext_resource path="res://icon.png" type="Texture" id=2]
+[ext_resource path="res://Actors/DreamMotes/HitScan.tscn" type="PackedScene" id=2]
+[ext_resource path="res://Actors/DreamMotes/BodyOrb.tscn" type="PackedScene" id=3]
+[ext_resource path="res://Resources/Particles/diamond_hollow.png" type="Texture" id=4]
 
 [sub_resource type="CircleShape2D" id=1]
-radius = 90.0056
+radius = 85.0235
+
+[sub_resource type="ShaderMaterial" id=7]
+
+[sub_resource type="Animation" id=8]
+resource_name = "New Anim"
+length = 0.2
+loop = true
+tracks/0/type = "value"
+tracks/0/path = NodePath("Viewport:render_target_update_mode")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0.2 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ 1 ]
+}
+
+[sub_resource type="Animation" id=9]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/path = NodePath("Viewport:render_target_update_mode")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ 3 ]
+}
 
 [sub_resource type="CircleShape2D" id=2]
-radius = 63.0317
+radius = 94.0053
 
-[node name="Mote" type="Node2D" groups=["Mote"]]
+[sub_resource type="CircleShape2D" id=10]
+radius = 88.2043
+
+[node name="Mote" type="Node2D"]
 script = ExtResource( 1 )
 
 [node name="GrabbyPart" type="KinematicBody2D" parent="."]
@@ -18,6 +57,7 @@ collision_mask = 0
 input_pickable = true
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="GrabbyPart"]
+visible = false
 shape = SubResource( 1 )
 
 [node name="DampedSpringJoint2D" type="PinJoint2D" parent="."]
@@ -26,18 +66,61 @@ node_b = NodePath("../Body")
 bias = 0.2
 softness = 1.0
 
-[node name="Body" type="RigidBody2D" parent="."]
+[node name="Body" type="RigidBody2D" parent="." groups=["Mote"]]
 collision_layer = 4
 collision_mask = 38
 mass = 6.0
 linear_damp = 3.0
 
-[node name="Icon" type="Sprite" parent="Body"]
-scale = Vector2( 2, 2 )
-texture = ExtResource( 2 )
+[node name="ViewportContainer" type="ViewportContainer" parent="Body"]
+material = SubResource( 7 )
+margin_left = -100.0
+margin_top = -100.0
+margin_right = 60.0
+margin_bottom = 60.0
+rect_min_size = Vector2( 200, 200 )
+mouse_filter = 2
+stretch = true
+stretch_shrink = 4
+
+[node name="Viewport" type="Viewport" parent="Body/ViewportContainer"]
+size = Vector2( 50, 50 )
+transparent_bg = true
+handle_input_locally = false
+render_target_update_mode = 3
+
+[node name="BodyOrb" parent="Body/ViewportContainer/Viewport" instance=ExtResource( 3 )]
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="Body/ViewportContainer/Viewport"]
+root_node = NodePath("../..")
+autoplay = "New Anim"
+"anims/New Anim" = SubResource( 8 )
+anims/RESET = SubResource( 9 )
+
+[node name="Node2D" type="Node2D" parent="Body/ViewportContainer/Viewport"]
+visible = false
+position = Vector2( 25, 25 )
+scale = Vector2( 0.25, 0.25 )
+
+[node name="DiamondHollow" type="Sprite" parent="Body/ViewportContainer/Viewport/Node2D"]
+rotation = 3.14159
+scale = Vector2( 16, 16 )
+texture = ExtResource( 4 )
+
+[node name="DiamondHollow2" type="Sprite" parent="Body/ViewportContainer/Viewport/Node2D"]
+rotation = 0.785398
+scale = Vector2( 16, 16 )
+texture = ExtResource( 4 )
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Body"]
+visible = false
 shape = SubResource( 2 )
+
+[node name="HitScan" parent="Body" instance=ExtResource( 2 )]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Body/HitScan"]
+visible = false
+shape = SubResource( 10 )
 
 [node name="Label" type="Label" parent="."]
 visible = false

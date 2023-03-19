@@ -8,11 +8,25 @@
 
 config_version=4
 
+_global_script_classes=[ {
+"base": "Node2D",
+"class": "Attacker",
+"language": "GDScript",
+"path": "res://Actors/Attacks/Attacker.gd"
+} ]
+_global_script_class_icons={
+"Attacker": ""
+}
+
 [application]
 
 config/name="GWJ55"
 run/main_scene="res://Experiments/ExampleLevel.tscn"
 config/icon="res://icon.png"
+
+[autoload]
+
+GM="*res://GameManager.gd"
 
 [display]
 
@@ -33,7 +47,7 @@ common/drop_mouse_on_gui_input_disabled=true
 2d_physics/layer_3="MOTES"
 2d_physics/layer_4="GRABBER"
 2d_physics/layer_5="ATTACKS"
-2d_physics/layer_6="TARGETS"
+2d_physics/layer_6="ENEMIES"
 
 [physics]
 
