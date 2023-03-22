@@ -1,4 +1,4 @@
-[gd_scene load_steps=10 format=2]
+[gd_scene load_steps=11 format=2]
 
 [ext_resource path="res://Experiments/ScreenShader.tscn" type="PackedScene" id=1]
 [ext_resource path="res://Actors/Attacks/LineExplosion/ExpandingLine.tscn" type="PackedScene" id=2]
@@ -6,6 +6,7 @@
 [ext_resource path="res://Actors/DreamMotes/Mote.tscn" type="PackedScene" id=4]
 [ext_resource path="res://Experiments/TestFrame.png" type="Texture" id=5]
 [ext_resource path="res://Actors/Attacks/BlockSwipe/SwipeBlock.tscn" type="PackedScene" id=6]
+[ext_resource path="res://Experiments/TestExplode.tscn" type="PackedScene" id=7]
 
 [sub_resource type="PhysicsMaterial" id=8]
 bounce = 0.8
@@ -32,6 +33,12 @@ position = Vector2( 248, 236 )
 
 [node name="AnimationPlayer" parent="Draggy2/Body/ViewportContainer/Viewport" index="1"]
 autoplay = ""
+
+[node name="TestExplode" parent="." instance=ExtResource( 7 )]
+margin_left = 892.0
+margin_top = 106.0
+margin_right = 1092.0
+margin_bottom = 306.0
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2( -92, 344 )
@@ -73,3 +80,4 @@ patch_margin_bottom = 60
 position = Vector2( 132, -8 )
 
 [editable path="Draggy2"]
+[editable path="TestExplode"]

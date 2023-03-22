@@ -1,0 +1,128 @@
+[gd_scene load_steps=8 format=2]
+
+[sub_resource type="Environment" id=10]
+background_mode = 2
+ambient_light_color = Color( 1, 1, 1, 1 )
+ambient_light_sky_contribution = 0.0
+glow_intensity = 2.55
+glow_strength = 1.15
+glow_bloom = 0.33
+
+[sub_resource type="SpatialMaterial" id=6]
+flags_fixed_size = true
+vertex_color_use_as_albedo = true
+albedo_color = Color( 1, 0, 0, 1 )
+
+[sub_resource type="SphereMesh" id=1]
+material = SubResource( 6 )
+radius = 0.6
+height = 0.4
+
+[sub_resource type="Curve" id=2]
+_data = [ Vector2( 0.173267, 1 ), 0.0, -1.42031, 0, 0, Vector2( 1, 0 ), 0.0, 0.0, 0, 0 ]
+
+[sub_resource type="Gradient" id=7]
+interpolation_mode = 2
+offsets = PoolRealArray( 0.413408, 0.899441 )
+colors = PoolColorArray( 1, 1, 1, 1, 0.239216, 0.239216, 0.239216, 0.847059 )
+
+[sub_resource type="Animation" id=3]
+resource_name = "New Anim"
+length = 0.2
+loop = true
+tracks/0/type = "value"
+tracks/0/path = NodePath("Viewport:render_target_update_mode")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0.2 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ 1 ]
+}
+
+[sub_resource type="Animation" id=4]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/path = NodePath("Viewport:render_target_clear_mode")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ 0 ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("Viewport:render_target_update_mode")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ 2 ]
+}
+tracks/2/type = "value"
+tracks/2/path = NodePath("Viewport/Spatial2/CPUParticles:mesh:material:albedo_color")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ Color( 1, 0, 0, 1 ) ]
+}
+
+[node name="TestExplode" type="ViewportContainer"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_right = -1080.0
+margin_bottom = -520.0
+rect_min_size = Vector2( 200, 200 )
+stretch = true
+stretch_shrink = 4
+
+[node name="Viewport" type="Viewport" parent="."]
+size = Vector2( 50, 50 )
+own_world = true
+transparent_bg = true
+handle_input_locally = false
+
+[node name="Spatial" type="Camera" parent="Viewport"]
+transform = Transform( 1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 3, 0 )
+environment = SubResource( 10 )
+projection = 1
+current = true
+size = 8.0
+
+[node name="Spatial2" type="Spatial" parent="Viewport"]
+
+[node name="CPUParticles" type="CPUParticles" parent="Viewport/Spatial2"]
+amount = 12
+lifetime = 1.4
+explosiveness = 0.16
+mesh = SubResource( 1 )
+spread = 180.0
+flatness = 1.0
+gravity = Vector3( 0, -6, 0 )
+initial_velocity = 5.0
+initial_velocity_random = 0.43
+damping = 3.0
+damping_random = 0.6
+scale_amount_curve = SubResource( 2 )
+color_ramp = SubResource( 7 )
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+autoplay = "New Anim"
+playback_speed = 1.6
+"anims/New Anim" = SubResource( 3 )
+anims/RESET = SubResource( 4 )
