@@ -1,18 +1,25 @@
 extends Node2D
 
 
-# Declare member variables here. Examples:
-# var a = 2
-# var b = "text"
 var drag = false
 var oldMousePos = Vector2()
 var topLeftCorner = Vector2(24,24)
 var bottomRightCorner = Vector2(1280-24,720-24)
+var locked = false
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	pass # Replace with function body.
 
+func lock_mote(pos):
+	locked = true
+	$GrabbyPart.global_position = pos
+	pass
+
+func unlock_mote():
+	locked = false
+	pass
+	
 func _physics_process(delta):
 	$Body/ViewportContainer.rect_rotation = 0
 	if drag:
